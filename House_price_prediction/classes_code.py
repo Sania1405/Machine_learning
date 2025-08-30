@@ -6,6 +6,10 @@ from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder, StandardScaler
 from sklearn.linear_model import LinearRegression
 
 class HousePricePredictor:
+    """
+    A class to predict house prices using a trained Linear Regression model.
+    It handles data loading, preprocessing, feature engineering, and prediction.
+    """
     def __init__(self, train_file):
         """
         This is the constructor. It sets up the model's components.
@@ -16,10 +20,11 @@ class HousePricePredictor:
         self.ordinal_cols = ['ExterQual', 'KitchenQual', 'HeatingQC']
         self.columns_to_scale = ['GarageArea', 'PoolArea', 'KitchenAbvGr', 'TotRmsAbvGrd', 'Fireplaces', 'TotalBath', 'Quality_and_Size', 'House_Age']
 
+        self.ordinal_quality = ['Po', 'Fa', 'TA', 'Gd', 'Ex']
         self.column_transformer = ColumnTransformer(
             transformers=[
                 ('onehot', OneHotEncoder(drop='first', handle_unknown='ignore'), self.nominal_cols),
-                ('ordinal', OrdinalEncoder(categories=[['Po', 'Fa', 'TA', 'Gd', 'Ex'], ['Po', 'Fa', 'TA', 'Gd', 'Ex'], ['Po', 'Fa', 'TA', 'Gd', 'Ex']]), self.ordinal_cols),
+                ('ordinal', OrdinalEncoder(categories=[self.ordinal_quality, self.ordinal_quality, self.ordinal_quality]), self.ordinal_cols),
                 ('scaler', StandardScaler(), self.columns_to_scale)
             ],
             remainder='passthrough'
@@ -29,7 +34,6 @@ class HousePricePredictor:
         self.y_train = None
         self.upper_limits = {}
         self.lower_limits = {}
-        self.ordinal_quality = ['Po', 'Fa', 'TA', 'Gd', 'Ex']
 
 
     @st.cache_data
@@ -95,7 +99,7 @@ class HousePricePredictor:
             if col in self.upper_limits:
                 user_input_df[col] = np.where(user_input_df[col] > self.upper_limits[col], self.upper_limits[col], user_input_df[col])
             if col in self.lower_limits:
-                 user_input_df[col] = np.where(user_input_df[col] < self.lower_limits[col], self.lower_limits[col], user_input_df[col])
+                user_input_df[col] = np.where(user_input_df[col] < self.lower_limits[col], self.lower_limits[col], user_input_df[col])
 
         # Drop original columns used for feature engineering
         user_input_df = user_input_df.drop(['BsmtFullBath','FullBath','OverallQual','LotArea','YrSold','YearRemodAdd'], axis=1)
