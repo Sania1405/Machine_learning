@@ -35,5 +35,5 @@
 # Model Evaluation: The model's performance was evaluated using standard regression metrics, including R-squared, Mean Absolute Error (MAE), and Root Mean Squared Error (RMSE) on a held-out test set.
 
 #->>>>>>>>>>>>>>>>>>>>>>>>>>>Key Findings and Results->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-# The model achieved a strong performance on unseen data, with a test R-squared score of 0.859. The R-squared score on the training data was 0.866, indicating that the model is well-balanced and does not suffer from underfitting or overfitting. The results demonstrate that the model can explain approximately 85% of the variance in house prices, providing a reliable prediction for new properties.
+# The model achieved a strong performance on unseen data, with a test R-squared score of 0.875. The R-squared score on the training data was 0.862, indicating that the model is well-balanced and does not suffer from underfitting or overfitting. The results demonstrate that the model can explain approximately 85% of the variance in house prices, providing a reliable prediction for new properties.
 
